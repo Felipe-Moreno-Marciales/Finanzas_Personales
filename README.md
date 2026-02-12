@@ -8,9 +8,6 @@ Aplicación web para registrar ingresos y gastos, visualizar el balance en tiemp
 
 ![Preview de la app Control Financiero](/Preview/preview.png)
 
-## 🚀 Versión actual
-
-**v1.0.0**
 
 ## ✨ Funcionalidades principales
 
