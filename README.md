@@ -41,13 +41,22 @@ Aplicación web para registrar ingresos y gastos, visualizar el balance en tiemp
 - Navegador moderno con soporte de ES Modules (Chrome, Edge, Firefox, Safari).
 - Conexión a internet para cargar Chart.js desde CDN.
 - Servidor local para ejecutar la app (recomendado evitar `file://`).
+- Node.js y npm (si usarás `npx serve .`).
 
 ## 🚀 Ejecución local
 
 No requiere build.
 
+Con Node.js/npm:
+
 ```bash
 npx serve .
+```
+
+Alternativa con Python:
+
+```bash
+python3 -m http.server 8000
 ```
 
 Luego abre la app desde el servidor local.
