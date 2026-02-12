@@ -36,6 +36,12 @@ Aplicación web para registrar ingresos y gastos, visualizar el balance en tiemp
 - Fecha válida en formato `YYYY-MM-DD`.
 - Soporte de montos como `1500`, `1.500,50` y `1500.25`.
 
+## 📌 Requisitos
+
+- Navegador moderno con soporte de ES Modules (Chrome, Edge, Firefox, Safari).
+- Conexión a internet para cargar Chart.js desde CDN.
+- Servidor local para ejecutar la app (recomendado evitar `file://`).
+
 ## 🚀 Ejecución local
 
 No requiere build.
@@ -50,6 +56,8 @@ Luego abre la app desde el servidor local.
 
 ```text
 Finanzas_Personales/
+├── README.md
+├── LICENSE
 ├── index.html
 ├── css/
 │   └── estilos.css
@@ -63,7 +71,21 @@ Finanzas_Personales/
 │   ├── interfaz.js
 │   └── gestorGraficos.js
 └── Preview/
+	└── preview.png
 ```
+
+## ⚠️ Limitaciones conocidas
+
+- Los datos se guardan en `localStorage` del navegador actual.
+- No hay autenticación de usuarios ni sincronización en la nube.
+- El proyecto no incluye backend ni base de datos remota.
+
+## 🛣️ Roadmap
+
+- Filtros por rango de fechas y categoría.
+- Métricas adicionales (promedios mensuales y tendencias).
+- Mejoras de exportación de reportes.
+- Optimización de experiencia móvil.
 
 ## 📄 Licencia
 
