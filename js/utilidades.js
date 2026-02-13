@@ -9,48 +9,43 @@ function normalizeAmountInput(rawValue) {
   const value = String(rawValue ?? '').trim().replace(/\s+/g, '');
   if (!value) return null;
 
-  const lastDot = value.lastIndexOf('.');
-  const lastComma = value.lastIndexOf(',');
+  const sign = value.startsWith('-') ? '-' : '';
+  const unsignedValue = value.replace(/^[+-]/, '');
+  if (!/^\d+[\d.,]*$/.test(unsignedValue)) return null;
+
+  const lastDot = unsignedValue.lastIndexOf('.');
+  const lastComma = unsignedValue.lastIndexOf(',');
   const hasDot = lastDot !== -1;
   const hasComma = lastComma !== -1;
 
   if (hasDot && hasComma) {
     const decimalSeparatorIndex = Math.max(lastDot, lastComma);
-    const integerPart = value.slice(0, decimalSeparatorIndex).replace(/[.,]/g, '');
-    const decimalPart = value.slice(decimalSeparatorIndex + 1).replace(/[.,]/g, '');
-    return `${integerPart}.${decimalPart}`;
+    const integerPart = unsignedValue.slice(0, decimalSeparatorIndex).replace(/[.,]/g, '');
+    const decimalPart = unsignedValue.slice(decimalSeparatorIndex + 1).replace(/[.,]/g, '');
+    return `${sign}${integerPart}.${decimalPart}`;
   }
 
   if (hasComma) {
-    const parts = value.split(',');
-    if (
-      parts.length === 2
-      && parts[1].length === 3
-      && /^\d+$/.test(parts[0])
-      && /^\d+$/.test(parts[1])
-    ) {
-      return `${parts[0]}${parts[1]}`;
+    if (/^\d{1,3}(,\d{3})+$/.test(unsignedValue)) {
+      return `${sign}${unsignedValue.replace(/,/g, '')}`;
     }
-    return value.replace(/\./g, '').replace(',', '.');
+    if (/^\d+,\d{1,2}$/.test(unsignedValue)) {
+      return `${sign}${unsignedValue.replace(',', '.')}`;
+    }
+    return null;
   }
 
   if (hasDot) {
-    const parts = value.split('.');
-    if (
-      parts.length === 2
-      && parts[1].length === 3
-      && /^\d+$/.test(parts[0])
-      && /^\d+$/.test(parts[1])
-    ) {
-      return `${parts[0]}${parts[1]}`;
+    if (/^\d{1,3}(\.\d{3})+$/.test(unsignedValue)) {
+      return `${sign}${unsignedValue.replace(/\./g, '')}`;
     }
-    if (parts.length > 2) {
-      const decimalPart = parts.pop();
-      return `${parts.join('')}.${decimalPart}`;
+    if (/^\d+\.\d{1,2}$/.test(unsignedValue)) {
+      return `${sign}${unsignedValue}`;
     }
+    return null;
   }
 
-  return value;
+  return `${sign}${unsignedValue}`;
 }
 
 export function parseAmountToCents(rawValue) {
