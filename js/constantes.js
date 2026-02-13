@@ -6,6 +6,8 @@ export const TRANSACTION_TYPES = Object.freeze({
 export const VALID_TRANSACTION_TYPES = new Set(Object.values(TRANSACTION_TYPES));
 
 export const CATEGORIES = Object.freeze([
+  { value: 'prosupuesto', label: 'Prosupuesto', icon: '🧮' },
+  { value: 'gasto', label: 'Gasto', icon: '💸' },
   { value: 'comida', label: 'Comida', icon: '🍔' },
   { value: 'entretenimiento', label: 'Entretenimiento', icon: '🎬' },
   { value: 'movilidad', label: 'Movilidad', icon: '🚗' },
@@ -23,6 +25,8 @@ export const CATEGORIES = Object.freeze([
 export const VALID_CATEGORIES = new Set(CATEGORIES.map(c => c.value));
 
 export const CATEGORY_COLORS = Object.freeze({
+  prosupuesto: '#f59e0b',
+  gasto: '#f43f5e',
   comida: '#ff6384',
   entretenimiento: '#36a2eb',
   movilidad: '#ffce56',
