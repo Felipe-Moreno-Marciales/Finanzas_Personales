@@ -621,7 +621,8 @@ html[data-theme='light'] #chart {
   }
   #chart,
   #categoryChart {
-    max-width: 250px;
+    max-width: min(100%, 320px);
+    max-height: 320px !important;
   }
   #chart {
     margin: 8px auto 12px;

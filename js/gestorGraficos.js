@@ -19,12 +19,12 @@ function getBalanceChartResponsiveOptions() {
 
   if (profile === 'mobile') {
     return {
-      aspectRatio: 1,
-      cutout: '76%',
-      radius: '94%',
-      layoutPadding: 6,
-      legendFontSize: 12,
-      legendPadding: 10
+      aspectRatio: 0.95,
+      cutout: '74%',
+      radius: '98%',
+      layoutPadding: 3,
+      legendFontSize: 13,
+      legendPadding: 12
     };
   }
 
@@ -54,12 +54,12 @@ function getCategoryChartResponsiveOptions() {
 
   if (profile === 'mobile') {
     return {
-      aspectRatio: 1,
-      cutout: '58%',
-      radius: '94%',
-      layoutPadding: 6,
-      legendFontSize: 12,
-      legendPadding: 10
+      aspectRatio: 0.95,
+      cutout: '56%',
+      radius: '98%',
+      layoutPadding: 3,
+      legendFontSize: 13,
+      legendPadding: 12
     };
   }
 
