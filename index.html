@@ -19,38 +19,40 @@
     <div class="main-layout">
       <!-- COLUMNA IZQUIERDA: Formulario + Historial -->
       <div class="main-layout__left">
-        <div class="form">
-          <label for="concept" class="visually-hidden">Concepto</label>
-          <input type="text" id="concept" placeholder="Concepto" />
+        <section class="entry-panel" aria-label="Registro de movimientos">
+          <div class="form">
+            <label for="concept" class="visually-hidden">Concepto</label>
+            <input type="text" id="concept" placeholder="Concepto" />
 
-          <label for="amount" class="visually-hidden">Cantidad</label>
-          <input type="text" id="amount" inputmode="decimal" placeholder="Cantidad (ej: 1.500,00)" />
+            <label for="amount" class="visually-hidden">Cantidad</label>
+            <input type="text" id="amount" inputmode="decimal" placeholder="Cantidad (ej: 1.500,00)" />
 
-          <label for="type" class="visually-hidden">Tipo</label>
-          <select id="type">
-            <option value="">Tipo</option>
-            <option value="presupuesto">Presupuesto</option>
-            <option value="gasto">Gasto</option>
-          </select>
+            <label for="type" class="visually-hidden">Tipo</label>
+            <select id="type">
+              <option value="">Tipo</option>
+              <option value="presupuesto">Presupuesto</option>
+              <option value="gasto">Gasto</option>
+            </select>
 
-          <label for="category" class="visually-hidden">Categoría</label>
-          <select id="category">
-            <option value="">Categoría</option>
-          </select>
+            <label for="category" class="visually-hidden">Categoría</label>
+            <select id="category">
+              <option value="">Categoría</option>
+            </select>
 
-          <label for="date" class="visually-hidden">Fecha</label>
-          <input type="date" id="date" />
+            <label for="date" class="visually-hidden">Fecha</label>
+            <input type="date" id="date" />
 
-          <button type="button" id="addBtn">Agregar Movimiento</button>
-          <button type="button" id="resetBtn" class="reset-btn">Reiniciar Todo</button>
-        </div>
-        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+            <button type="button" id="addBtn">Agregar Movimiento</button>
+            <button type="button" id="resetBtn" class="reset-btn">Reiniciar Todo</button>
+          </div>
+          <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
 
-        <div class="controls">
-          <button type="button" id="backupBtn" class="backup-btn">Guardar Backup</button>
-          <button type="button" id="restoreBtn" class="restore-btn">Cargar Backup</button>
-          <input type="file" id="restoreFile" style="display: none;" accept=".json">
-        </div>
+          <div class="controls">
+            <button type="button" id="backupBtn" class="backup-btn">Guardar Backup</button>
+            <button type="button" id="restoreBtn" class="restore-btn">Cargar Backup</button>
+            <input type="file" id="restoreFile" style="display: none;" accept=".json">
+          </div>
+        </section>
 
         <h3>Historial</h3>
         <ul id="history"></ul>

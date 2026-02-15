@@ -144,6 +144,17 @@ h3 {
   min-width: 0;
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+.entry-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--bg-component);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
 }
 
 .main-layout__right {
@@ -176,14 +187,24 @@ h3 {
 
 .form {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   align-items: center;
 }
 
 #concept {
-  grid-column: span 3;
+  grid-column: span 6;
+}
+
+#amount,
+#type,
+#category {
+  grid-column: span 2;
+}
+
+#date {
+  grid-column: span 2;
 }
 
 #addBtn {
@@ -191,7 +212,7 @@ h3 {
 }
 
 #resetBtn {
-  grid-column: span 1;
+  grid-column: span 2;
 }
 
 input, select {
@@ -242,7 +263,7 @@ select[aria-invalid='true'] {
 }
 
 .form-error {
-  margin: 0 0 10px;
+  margin: 0;
   min-height: 16px;
   color: #ff6b5f;
   font-size: 0.85rem;
@@ -274,7 +295,7 @@ button {
   background-color: var(--bg-component);
   color: var(--red-vivid);
   border: 1px solid var(--border);
-  grid-column: span 1;
+  grid-column: span 2;
 }
 .reset-btn:hover {
   background-color: var(--red-vivid);
@@ -288,7 +309,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 0;
 }
 .controls button {
   grid-column: span 1;
@@ -506,9 +527,16 @@ html[data-theme='light'] #chart {
   .form {
     grid-template-columns: 1fr 1fr;
   }
-  #concept,
-  #addBtn {
+  #concept {
     grid-column: span 2;
+  }
+  #amount,
+  #type,
+  #category,
+  #date,
+  #addBtn,
+  #resetBtn {
+    grid-column: span 1;
   }
   .controls {
     grid-template-columns: 1fr;
@@ -568,6 +596,10 @@ html[data-theme='light'] #chart {
     gap: 10px;
   }
   #concept,
+  #amount,
+  #type,
+  #category,
+  #date,
   #addBtn,
   .reset-btn {
     grid-column: span 1;
