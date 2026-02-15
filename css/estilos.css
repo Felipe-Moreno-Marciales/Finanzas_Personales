@@ -615,16 +615,20 @@ html[data-theme='light'] #chart {
     height: 46px;
   }
   #date {
-    display: block;
-    line-height: 1.2;
-    -webkit-appearance: none;
-    appearance: none;
+    height: 46px;
+    line-height: normal;
+    -webkit-appearance: auto;
+    appearance: auto;
   }
   #date::-webkit-date-and-time-value {
     text-align: left;
   }
+  #date:invalid::-webkit-datetime-edit {
+    color: var(--text-secondary);
+  }
   #date::-webkit-calendar-picker-indicator {
     margin: 0;
+    opacity: 0.9;
   }
   .summary div {
     font-size: 0.95rem;
