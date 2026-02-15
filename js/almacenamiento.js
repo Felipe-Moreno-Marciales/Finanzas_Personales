@@ -19,14 +19,3 @@ export function loadStoredTransactions() {
     return [];
   }
 }
-
-export function saveTheme(theme) {
-  localStorage.setItem(STORAGE_KEYS.THEME, theme);
-  localStorage.setItem('theme', theme);
-}
-
-export function loadTheme(defaultTheme = 'dark') {
-  return localStorage.getItem(STORAGE_KEYS.THEME)
-    ?? localStorage.getItem('theme')
-    ?? defaultTheme;
-}

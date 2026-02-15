@@ -42,8 +42,7 @@ export const CATEGORY_COLORS = Object.freeze({
 });
 
 export const STORAGE_KEYS = Object.freeze({
-  TRANSACTIONS: 'finance_app:transactions',
-  THEME: 'finance_app:theme'
+  TRANSACTIONS: 'finance_app:transactions'
 });
 
 export const BACKUP_VERSION = 4;

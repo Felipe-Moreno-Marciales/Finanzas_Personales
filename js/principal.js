@@ -6,7 +6,7 @@ import {
   updateCategoryChart,
   refreshChartsViewport
 } from './gestorGraficos.js';
-import { loadStoredTransactions, loadTheme, saveTheme, saveTransactions } from './almacenamiento.js';
+import { loadStoredTransactions, saveTransactions } from './almacenamiento.js';
 import {
   calculateTotals,
   createTransaction,
@@ -211,23 +211,6 @@ function handleRestore(event) {
   reader.readAsText(file);
 }
 
-function applyTheme(theme) {
-  document.documentElement.dataset.theme = theme;
-  dom.themeToggle.checked = theme === 'dark';
-}
-
-function initTheme() {
-  const theme = loadTheme('dark');
-  applyTheme(theme);
-
-  dom.themeToggle.addEventListener('change', (event) => {
-    const nextTheme = event.target.checked ? 'dark' : 'light';
-    applyTheme(nextTheme);
-    saveTheme(nextTheme);
-    render();
-  });
-}
-
 function initTransactions() {
   const rawTransactions = loadStoredTransactions();
   const normalizedTransactions = normalizeTransactions(rawTransactions);
@@ -284,10 +267,10 @@ export function initFinanceApp() {
     throw new Error('Chart.js no está disponible. Verifica la carga del script CDN.');
   }
 
+  document.documentElement.dataset.theme = 'dark';
   state.chart = initBalanceChart(dom.chartCanvas);
   state.categoryChart = initCategoryChart(dom.categoryChartCanvas);
   initTransactions();
-  initTheme();
   populateCategorySelect(dom);
   initListeners();
   render();

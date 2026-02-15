@@ -15,7 +15,6 @@ export function getDomReferences() {
     incomeLabel: document.getElementById('income'),
     expenseLabel: document.getElementById('expense'),
     balanceLabel: document.getElementById('balance'),
-    themeToggle: document.querySelector('.theme-switch__checkbox'),
     addButton: document.getElementById('addBtn'),
     resetButton: document.getElementById('resetBtn'),
     chartCanvas: document.getElementById('chart'),
