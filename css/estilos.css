@@ -609,6 +609,23 @@ html[data-theme='light'] #chart {
   button {
     font-size: 16px;
   }
+  .form input,
+  .form select,
+  .form button {
+    height: 46px;
+  }
+  #date {
+    display: block;
+    line-height: 1.2;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  #date::-webkit-date-and-time-value {
+    text-align: left;
+  }
+  #date::-webkit-calendar-picker-indicator {
+    margin: 0;
+  }
   .summary div {
     font-size: 0.95rem;
   }
