@@ -42,6 +42,11 @@ html[data-theme='dark'] {
 
 * { box-sizing: border-box; }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -56,6 +61,7 @@ body {
   min-height: 100%;
   margin: 0;
   overflow-x: hidden;
+  line-height: 1.4;
 }
 
 html[data-theme='light'] body {
@@ -250,6 +256,7 @@ input, select {
   font-size: 0.9rem;
   transition: var(--transition);
   width: 100%;
+  min-height: 42px;
 }
 input::placeholder { color: var(--text-secondary); }
 input:focus, select:focus {
@@ -303,6 +310,7 @@ button {
   font-size: 0.9rem;
   font-weight: 600;
   transition: var(--transition);
+  min-height: 42px;
 }
 
 #addBtn {
@@ -527,7 +535,9 @@ html[data-theme='light'] #chart {
     width: 100%;
   }
   ul {
-    max-height: 320px;
+    max-height: none;
+    overflow: visible;
+    flex: initial;
   }
   #chart,
   #categoryChart {
@@ -598,7 +608,11 @@ html[data-theme='light'] #chart {
 
 @media (max-width: 480px) {
   .dashboard {
-    padding: 14px 12px 14px;
+    padding:
+      calc(14px + env(safe-area-inset-top))
+      calc(12px + env(safe-area-inset-right))
+      calc(14px + env(safe-area-inset-bottom))
+      calc(12px + env(safe-area-inset-left));
   }
   .main-layout {
     gap: 18px;
@@ -645,13 +659,14 @@ html[data-theme='light'] #chart {
   .form input,
   .form select,
   .form button {
-    height: 46px;
+    height: 48px;
+    min-height: 48px;
   }
   .date-field__hint {
     font-size: 16px;
   }
   #date {
-    height: 46px;
+    height: 48px;
     line-height: normal;
     -webkit-appearance: auto;
     appearance: auto;
@@ -667,14 +682,16 @@ html[data-theme='light'] #chart {
     opacity: 0.9;
   }
   .summary div {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
   h1 {
     font-size: 1.35rem;
     margin-bottom: 12px;
   }
   ul {
-    max-height: 240px;
+    max-height: none;
+    overflow: visible;
+    flex: initial;
   }
   #chart,
   #categoryChart {
