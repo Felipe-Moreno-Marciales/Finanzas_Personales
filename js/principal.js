@@ -1,5 +1,11 @@
 import { BACKUP_VERSION, VALID_TRANSACTION_TYPES, VALID_CATEGORIES } from './constantes.js';
-import { initBalanceChart, updateBalanceChart, initCategoryChart, updateCategoryChart } from './gestorGraficos.js';
+import {
+  initBalanceChart,
+  updateBalanceChart,
+  initCategoryChart,
+  updateCategoryChart,
+  refreshChartsViewport
+} from './gestorGraficos.js';
 import { loadStoredTransactions, loadTheme, saveTheme, saveTransactions } from './almacenamiento.js';
 import {
   calculateTotals,
@@ -262,6 +268,14 @@ function initListeners() {
     if (actionButton.classList.contains('delete-btn')) {
       handleDelete(index);
     }
+  });
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      refreshChartsViewport(state.chart, state.categoryChart);
+    }, 120);
   });
 }
 

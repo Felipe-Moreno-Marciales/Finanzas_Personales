@@ -42,16 +42,21 @@ html[data-theme='dark'] {
 
 * { box-sizing: border-box; }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg);
   background-image: linear-gradient(180deg, var(--bg) 0%, #1c1c1c 100%);
   color: var(--text-primary);
+  min-height: 100%;
   margin: 0;
-  padding: 0;
-  min-height: 100dvh;
-  overflow: hidden;
-  transition: var(--transition);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 html[data-theme='light'] body {
@@ -77,11 +82,10 @@ html[data-theme='light'] body {
   width: 100%;
   background: var(--bg);
   padding: 30px 40px;
-  height: 100dvh;
-  overflow: hidden;
+  min-height: 100dvh;
+  overflow: visible;
   display: flex;
   flex-direction: column;
-  transition: var(--transition);
 }
 
 h1 {
@@ -157,6 +161,18 @@ h3 {
 
 .main-layout__right h3 {
   width: 100%;
+}
+
+.chart-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chart-block + .chart-block {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
 }
 
 .form {
@@ -323,6 +339,7 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
   padding: 10px 14px;
   border-bottom: 1px solid var(--border);
   font-size: 0.88rem;
@@ -336,11 +353,13 @@ li:last-child {
 li > div:first-child {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 li strong {
   color: var(--text-primary);
   font-weight: 500;
   font-size: 0.9rem;
+  overflow-wrap: anywhere;
 }
 li .actions {
   display: flex;
@@ -385,6 +404,7 @@ li .delete-btn:hover {
 #chart {
   display: block;
   width: 100% !important;
+  height: auto !important;
   max-height: 250px !important;
   margin: 5px auto 15px;
   background: transparent;
@@ -394,6 +414,7 @@ li .delete-btn:hover {
 #categoryChart {
   display: block;
   width: 100% !important;
+  height: auto !important;
   max-height: 250px !important;
   margin: 5px auto;
   background: transparent;
@@ -428,11 +449,34 @@ html[data-theme='light'] #chart {
 /* =================================================================
    ELEMENTOS ADICIONALES Y RESPONSIVE
    ================================================================= */
+.fixed-theme-wrapper {
+  position: fixed !important;
+  top: 15px !important;
+  right: 15px !important;
+  left: auto !important;
+  bottom: auto !important;
+  z-index: 2147483647 !important;
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0) !important;
+  -webkit-transform: translateZ(0) !important;
+}
+
 .theme-switch {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
+  pointer-events: auto !important;
+  display: inline-block;
+  position: relative !important; /* Relative to wrapper is fine */
+  margin: 0 !important;
+  transform: translateZ(0); 
+  -webkit-transform: translateZ(0);
 }
 
 
@@ -649,35 +693,158 @@ html[data-theme='light'] #chart {
 }
 
 /* Responsive */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
+  .dashboard {
+    padding: 24px;
+    min-height: 100dvh;
+  }
+  .summary {
+    gap: 12px;
+    padding: 14px 16px;
+  }
   .main-layout {
-    flex-direction: column;
+    gap: 20px;
   }
   .main-layout__right {
-    width: 100%;
-  }
-  #chart, #categoryChart {
-    height: 220px !important;
+    padding: 18px;
   }
 }
 
-@media (max-width: 480px) {
-  body { padding: 10px; }
+@media (max-width: 900px) {
+  .main-layout {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .main-layout__left,
+  .main-layout__right {
+    width: 100%;
+  }
+  ul {
+    max-height: 320px;
+  }
+  #chart,
+  #categoryChart {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 768px) {
   .dashboard {
-    padding: 14px;
-    height: calc(100dvh - 20px);
+    padding: 18px 16px 16px;
+    min-height: auto;
   }
-  .form, .controls {
-    grid-template-columns: 1fr;
+  .main-layout {
+    gap: 24px;
   }
-  #concept, #addBtn, .reset-btn, .controls button {
-    grid-column: span 1;
+  .main-layout__right {
+    padding: 20px 16px;
+    gap: 20px;
+  }
+  .chart-block {
+    gap: 6px;
+  }
+  .main-layout__right h3 {
+    margin: 0;
+    padding-bottom: 8px;
   }
   .summary {
     grid-template-columns: 1fr;
   }
-  h1 { font-size: 1.6rem; }
-  #chart, #categoryChart {
-    height: 180px !important;
+  .form {
+    grid-template-columns: 1fr 1fr;
+  }
+  #concept,
+  #addBtn {
+    grid-column: span 2;
+  }
+  .controls {
+    grid-template-columns: 1fr;
+  }
+  .controls button {
+    grid-column: span 1;
+  }
+  h1 {
+    font-size: 1.55rem;
+    margin-bottom: 16px;
+  }
+  li {
+    padding: 11px 10px;
+  }
+  #chart,
+  #categoryChart {
+    max-width: 290px;
+  }
+  #chart {
+    margin: 8px auto 14px;
+  }
+  #categoryChart {
+    margin: 8px auto 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-switch {
+    --toggle-size: 13px;
+  }
+  .dashboard {
+    padding: 60px 12px 14px;
+  }
+  .main-layout {
+    gap: 18px;
+  }
+  .main-layout__right {
+    background: transparent;
+    border: none;
+    padding: 0;
+    gap: 12px;
+  }
+  .chart-block {
+    background-color: var(--bg-component);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 12px;
+    gap: 8px;
+  }
+  .chart-block + .chart-block {
+    margin-top: 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .main-layout__right h3 {
+    margin: 2px 0 0;
+  }
+  .form {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  #concept,
+  #addBtn,
+  .reset-btn {
+    grid-column: span 1;
+  }
+  input,
+  select,
+  button {
+    font-size: 16px;
+  }
+  .summary div {
+    font-size: 0.95rem;
+  }
+  h1 {
+    font-size: 1.35rem;
+    margin-bottom: 12px;
+  }
+  ul {
+    max-height: 240px;
+  }
+  #chart,
+  #categoryChart {
+    max-width: 250px;
+  }
+  #chart {
+    margin: 8px auto 12px;
+  }
+  #categoryChart {
+    margin: 8px auto 0;
   }
 }

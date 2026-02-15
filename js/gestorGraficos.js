@@ -3,6 +3,119 @@ import { CATEGORIES, CATEGORY_COLORS, TRANSACTION_TYPES } from './constantes.js'
 
 const CENTER_VALUE_ANIMATION_MS = 700;
 
+function getViewportWidth() {
+  return window.innerWidth || document.documentElement.clientWidth || 1024;
+}
+
+function getViewportProfile() {
+  const width = getViewportWidth();
+  if (width <= 480) return 'mobile';
+  if (width <= 900) return 'tablet';
+  return 'desktop';
+}
+
+function getBalanceChartResponsiveOptions() {
+  const profile = getViewportProfile();
+
+  if (profile === 'mobile') {
+    return {
+      aspectRatio: 1,
+      cutout: '76%',
+      radius: '94%',
+      layoutPadding: 6,
+      legendFontSize: 12,
+      legendPadding: 10
+    };
+  }
+
+  if (profile === 'tablet') {
+    return {
+      aspectRatio: 1.45,
+      cutout: '75%',
+      radius: '90%',
+      layoutPadding: 8,
+      legendFontSize: 13,
+      legendPadding: 14
+    };
+  }
+
+  return {
+    aspectRatio: 2.1,
+    cutout: '76%',
+    radius: '88%',
+    layoutPadding: 10,
+    legendFontSize: 14,
+    legendPadding: 18
+  };
+}
+
+function getCategoryChartResponsiveOptions() {
+  const profile = getViewportProfile();
+
+  if (profile === 'mobile') {
+    return {
+      aspectRatio: 1,
+      cutout: '58%',
+      radius: '94%',
+      layoutPadding: 6,
+      legendFontSize: 12,
+      legendPadding: 10
+    };
+  }
+
+  if (profile === 'tablet') {
+    return {
+      aspectRatio: 1.45,
+      cutout: '60%',
+      radius: '90%',
+      layoutPadding: 8,
+      legendFontSize: 12,
+      legendPadding: 12
+    };
+  }
+
+  return {
+    aspectRatio: 2.1,
+    cutout: '60%',
+    radius: '88%',
+    layoutPadding: 10,
+    legendFontSize: 13,
+    legendPadding: 14
+  };
+}
+
+function applyBalanceChartResponsiveOptions(chart) {
+  if (!chart) return;
+  const options = getBalanceChartResponsiveOptions();
+
+  chart.options.maintainAspectRatio = true;
+  chart.options.aspectRatio = options.aspectRatio;
+  chart.options.cutout = options.cutout;
+  chart.options.radius = options.radius;
+  chart.options.layout.padding = options.layoutPadding;
+  chart.options.plugins.legend.labels.font = {
+    size: options.legendFontSize,
+    weight: 600
+  };
+  chart.options.plugins.legend.labels.padding = options.legendPadding;
+}
+
+function applyCategoryChartResponsiveOptions(chart) {
+  if (!chart) return;
+  const options = getCategoryChartResponsiveOptions();
+
+  chart.options.maintainAspectRatio = true;
+  chart.options.aspectRatio = options.aspectRatio;
+  chart.options.cutout = options.cutout;
+  chart.options.radius = options.radius;
+  chart.options.layout.padding = options.layoutPadding;
+  chart.options.plugins.legend.labels.font = {
+    size: options.legendFontSize,
+    weight: 600
+  };
+  chart.options.plugins.legend.labels.padding = options.legendPadding;
+}
+
 function getChartPalette() {
   const isLightTheme = document.documentElement.dataset.theme === 'light';
 
@@ -107,11 +220,23 @@ const balanceCenterTextPlugin = {
     };
 
     if (!hasData) {
-      const emptyText = 'Sin movimientos';
-      const emptyFontSize = fitFontSize(emptyText, Math.round(innerRadius * 0.3), 15, 600);
+      const useTwoLines = innerRadius < 62;
+      const emptyText = useTwoLines ? 'Sin\nmovimientos' : 'Sin movimientos';
+      const emptyFontSize = fitFontSize(
+        useTwoLines ? 'Sin movimientos' : emptyText,
+        Math.round(innerRadius * 0.3),
+        13,
+        600
+      );
       ctx.fillStyle = options.emptyCenterText || options.secondaryText;
       ctx.font = `600 ${emptyFontSize}px Inter, sans-serif`;
-      ctx.fillText(emptyText, centerX, centerY - 1);
+      if (useTwoLines) {
+        const lineGap = Math.round(emptyFontSize * 1.05);
+        ctx.fillText('Sin', centerX, centerY - (lineGap / 2));
+        ctx.fillText('movimientos', centerX, centerY + (lineGap / 2));
+      } else {
+        ctx.fillText(emptyText, centerX, centerY - 1);
+      }
       ctx.restore();
       return;
     }
@@ -166,6 +291,7 @@ function applyChartStyle(chart, totals) {
 
 export function initBalanceChart(canvas) {
   const context = canvas.getContext('2d');
+  const responsive = getBalanceChartResponsiveOptions();
 
   return new Chart(context, {
     type: 'doughnut',
@@ -182,15 +308,15 @@ export function initBalanceChart(canvas) {
     options: {
       responsive: true,
       maintainAspectRatio: true,
-      aspectRatio: 2.1,
-      cutout: '76%',
-      radius: '88%',
+      aspectRatio: responsive.aspectRatio,
+      cutout: responsive.cutout,
+      radius: responsive.radius,
       animation: {
         duration: 850,
         easing: 'easeOutQuart'
       },
       layout: {
-        padding: 10
+        padding: responsive.layoutPadding
       },
       plugins: {
         legend: {
@@ -198,10 +324,10 @@ export function initBalanceChart(canvas) {
           align: 'center',
           fullSize: false,
           labels: {
-            font: { size: 14, weight: 600 },
+            font: { size: responsive.legendFontSize, weight: 600 },
             usePointStyle: true,
             pointStyle: 'circle',
-            padding: 18
+            padding: responsive.legendPadding
           }
         },
         tooltip: {
@@ -222,6 +348,8 @@ export function initBalanceChart(canvas) {
 
 export function updateBalanceChart(chart, totals) {
   if (!chart) return;
+
+  applyBalanceChartResponsiveOptions(chart);
 
   prepareCenterValueAnimation(chart, totals.balanceCents);
 
@@ -253,6 +381,7 @@ export function initCategoryChart(canvas) {
   if (!canvas) return null;
   const context = canvas.getContext('2d');
   const palette = getChartPalette();
+  const responsive = getCategoryChartResponsiveOptions();
 
   return new Chart(context, {
     type: 'doughnut',
@@ -269,23 +398,23 @@ export function initCategoryChart(canvas) {
     options: {
       responsive: true,
       maintainAspectRatio: true,
-      aspectRatio: 2.1,
-      cutout: '60%',
-      radius: '88%',
+      aspectRatio: responsive.aspectRatio,
+      cutout: responsive.cutout,
+      radius: responsive.radius,
       animation: {
         duration: 850,
         easing: 'easeOutQuart'
       },
-      layout: { padding: 10 },
+      layout: { padding: responsive.layoutPadding },
       plugins: {
         legend: {
           position: 'top',
           align: 'center',
           labels: {
-            font: { size: 13, weight: 600 },
+            font: { size: responsive.legendFontSize, weight: 600 },
             usePointStyle: true,
             pointStyle: 'circle',
-            padding: 14,
+            padding: responsive.legendPadding,
             color: palette.legendColor
           }
         },
@@ -306,6 +435,8 @@ export function initCategoryChart(canvas) {
 
 export function updateCategoryChart(chart, transactions) {
   if (!chart) return;
+
+  applyCategoryChartResponsiveOptions(chart);
 
   const categoryTotals = aggregateByCategory(transactions);
   const entries = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]);
@@ -335,4 +466,16 @@ export function updateCategoryChart(chart, transactions) {
   chart.options.plugins.tooltip.titleColor = palette.tooltipFg;
   chart.options.plugins.tooltip.bodyColor = palette.tooltipFg;
   chart.update();
+}
+
+export function refreshChartsViewport(balanceChart, categoryChart) {
+  if (balanceChart) {
+    applyBalanceChartResponsiveOptions(balanceChart);
+    balanceChart.update('none');
+  }
+
+  if (categoryChart) {
+    applyCategoryChartResponsiveOptions(categoryChart);
+    categoryChart.update('none');
+  }
 }
