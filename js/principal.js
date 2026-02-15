@@ -68,8 +68,14 @@ function clearEditorState() {
   setAddButtonMode(dom, false);
 }
 
+function syncDateFieldHint() {
+  if (!dom.dateInput) return;
+  dom.dateInput.dataset.empty = dom.dateInput.value ? 'false' : 'true';
+}
+
 function resetForm() {
   clearFormInputs(dom);
+  syncDateFieldHint();
   clearFormError(dom);
   clearEditorState();
 }
@@ -138,6 +144,7 @@ function handleEdit(index) {
 
   const tx = state.transactions[index];
   fillFormForEdit(dom, tx);
+  syncDateFieldHint();
   clearFormError(dom);
   state.editingIndex = index;
   setAddButtonMode(dom, true);
@@ -231,6 +238,8 @@ function initListeners() {
   dom.backupButton.addEventListener('click', handleBackup);
   dom.restoreButton.addEventListener('click', () => dom.restoreFileInput.click());
   dom.restoreFileInput.addEventListener('change', handleRestore);
+  dom.dateInput.addEventListener('input', syncDateFieldHint);
+  dom.dateInput.addEventListener('change', syncDateFieldHint);
 
   dom.formContainer.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter') return;
@@ -273,6 +282,7 @@ export function initFinanceApp() {
   initTransactions();
   populateCategorySelect(dom);
   initListeners();
+  syncDateFieldHint();
   render();
   clearEditorState();
 }

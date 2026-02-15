@@ -39,8 +39,11 @@
               <option value="">Categoría</option>
             </select>
 
-            <label for="date" class="visually-hidden">Fecha</label>
-            <input type="date" id="date" />
+            <label for="date" class="visually-hidden">Fecha del movimiento</label>
+            <div class="date-field">
+              <input type="date" id="date" data-empty="true" />
+              <span class="date-field__hint" aria-hidden="true">Fecha del movimiento</span>
+            </div>
 
             <button type="button" id="addBtn">Agregar Movimiento</button>
             <button type="button" id="resetBtn" class="reset-btn">Reiniciar Todo</button>

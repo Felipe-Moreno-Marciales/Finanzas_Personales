@@ -40,11 +40,11 @@ function getBalanceChartResponsiveOptions() {
   }
 
   return {
-    aspectRatio: 2.1,
+    aspectRatio: 1.95,
     cutout: '76%',
-    radius: '88%',
+    radius: '90%',
     layoutPadding: 10,
-    legendFontSize: 14,
+    legendFontSize: 15,
     legendPadding: 18
   };
 }
@@ -75,11 +75,11 @@ function getCategoryChartResponsiveOptions() {
   }
 
   return {
-    aspectRatio: 2.1,
+    aspectRatio: 1.95,
     cutout: '60%',
-    radius: '88%',
+    radius: '90%',
     layoutPadding: 10,
-    legendFontSize: 13,
+    legendFontSize: 14,
     legendPadding: 14
   };
 }
