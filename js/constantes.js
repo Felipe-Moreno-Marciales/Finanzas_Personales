@@ -19,6 +19,7 @@ export const CATEGORIES = Object.freeze([
   { value: 'ahorro', label: 'Ahorro', icon: '🏦' },
   { value: 'salario', label: 'Salario', icon: '💰' },
   { value: 'freelance', label: 'Freelance', icon: '💻' },
+  { value: 'mascotas', label: 'Mascotas', icon: '🐶' },
   { value: 'otros', label: 'Otros', icon: '📦' }
 ]);
 
@@ -38,6 +39,7 @@ export const CATEGORY_COLORS = Object.freeze({
   ahorro: '#00b85d',
   salario: '#00e388',
   freelance: '#36cfb4',
+  mascotas: '#14b8a6',
   otros: '#c9cbcf'
 });
 
