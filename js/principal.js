@@ -53,14 +53,48 @@ function persistTransactions() {
   saveTransactions(state.transactions);
 }
 
+function getVisibleExpenseCentsFromCategoryChart(fallbackExpenseCents) {
+  if (!state.categoryChart) return fallbackExpenseCents;
+
+  const dataset = state.categoryChart.data?.datasets?.[0];
+  const rawValues = Array.isArray(dataset?.data) ? dataset.data : [];
+  if (rawValues.length === 0) return fallbackExpenseCents;
+
+  const visibleExpenseCents = rawValues.reduce((acc, rawValue, index) => {
+    const isVisible = typeof state.categoryChart.getDataVisibility === 'function'
+      ? state.categoryChart.getDataVisibility(index)
+      : true;
+
+    if (!isVisible) return acc;
+
+    const value = Number(rawValue);
+    if (!Number.isFinite(value)) return acc;
+
+    return acc + Math.max(0, Math.round(value));
+  }, 0);
+
+  return visibleExpenseCents;
+}
+
+function renderBalanceGeneral(baseTotals) {
+  const visibleExpenseCents = getVisibleExpenseCentsFromCategoryChart(baseTotals.expenseCents);
+  const balanceTotals = {
+    incomeCents: baseTotals.incomeCents,
+    expenseCents: visibleExpenseCents,
+    balanceCents: baseTotals.incomeCents - visibleExpenseCents
+  };
+
+  renderChartStatus(dom, balanceTotals);
+  updateBalanceChart(state.chart, balanceTotals);
+}
+
 function render() {
   const totals = calculateTotals(state.transactions);
   renderSummary(dom, totals);
-  renderChartStatus(dom, totals);
   renderHistory(dom, state.transactions);
   setAddButtonMode(dom, state.editingIndex !== null);
-  updateBalanceChart(state.chart, totals);
   updateCategoryChart(state.categoryChart, state.transactions);
+  renderBalanceGeneral(totals);
 }
 
 function clearEditorState() {
@@ -278,7 +312,10 @@ export function initFinanceApp() {
 
   document.documentElement.dataset.theme = 'dark';
   state.chart = initBalanceChart(dom.chartCanvas);
-  state.categoryChart = initCategoryChart(dom.categoryChartCanvas);
+  state.categoryChart = initCategoryChart(dom.categoryChartCanvas, () => {
+    const totals = calculateTotals(state.transactions);
+    renderBalanceGeneral(totals);
+  });
   initTransactions();
   populateCategorySelect(dom);
   initListeners();

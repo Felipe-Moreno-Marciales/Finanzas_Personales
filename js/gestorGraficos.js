@@ -378,13 +378,13 @@ function aggregateByCategory(transactions) {
   return map;
 }
 
-export function initCategoryChart(canvas) {
+export function initCategoryChart(canvas, onVisibilityChange = null) {
   if (!canvas) return null;
   const context = canvas.getContext('2d');
   const palette = getChartPalette();
   const responsive = getCategoryChartResponsiveOptions();
 
-  return new Chart(context, {
+  const chart = new Chart(context, {
     type: 'doughnut',
     data: {
       labels: [],
@@ -411,6 +411,16 @@ export function initCategoryChart(canvas) {
         legend: {
           position: 'top',
           align: 'center',
+          onClick: (event, legendItem, legend) => {
+            const defaultHandler = Chart.overrides?.doughnut?.plugins?.legend?.onClick;
+            if (typeof defaultHandler === 'function') {
+              defaultHandler(event, legendItem, legend);
+            }
+
+            if (typeof onVisibilityChange === 'function') {
+              onVisibilityChange();
+            }
+          },
           labels: {
             font: { size: responsive.legendFontSize, weight: 600 },
             usePointStyle: true,
@@ -433,6 +443,8 @@ export function initCategoryChart(canvas) {
       }
     }
   });
+
+  return chart;
 }
 
 export function updateCategoryChart(chart, transactions) {
