@@ -187,7 +187,7 @@ function getAnimatedBalanceCents(chart, fallbackTargetCents) {
 
 const balanceCenterTextPlugin = {
   id: 'balanceCenterText',
-  afterDraw(chart, _args, options) {
+  afterDatasetsDraw(chart, _args, options) {
     if (!chart?.chartArea || !options) return;
 
     const { ctx, chartArea } = chart;
@@ -333,10 +333,11 @@ export function initBalanceChart(canvas) {
         tooltip: {
           displayColors: false,
           callbacks: {
+            title: (items) => items[0]?.label || '',
             label: (ctx) => {
               const total = ctx.dataset.data.reduce((acc, value) => acc + value, 0) || 1;
               const percent = ((ctx.raw / total) * 100).toFixed(2);
-              return `${ctx.label}: $${formatCents(ctx.raw)} (${percent}%)`;
+              return `$${formatCents(ctx.raw)} (${percent}%)`;
             }
           }
         },
@@ -421,10 +422,11 @@ export function initCategoryChart(canvas) {
         tooltip: {
           displayColors: true,
           callbacks: {
+            title: (items) => items[0]?.label || '',
             label: (ctx) => {
               const total = ctx.dataset.data.reduce((a, v) => a + v, 0) || 1;
               const percent = ((ctx.raw / total) * 100).toFixed(1);
-              return `${ctx.label}: $${formatCents(ctx.raw)} (${percent}%)`;
+              return `$${formatCents(ctx.raw)} (${percent}%)`;
             }
           }
         }
