@@ -209,6 +209,11 @@ h3 {
   width: 100%;
 }
 
+.main-layout__left > h3 {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
 .chart-block {
   display: flex;
   flex-direction: column;
@@ -218,7 +223,6 @@ h3 {
 .chart-block + .chart-block {
   margin-top: 6px;
   padding-top: 12px;
-  border-top: 1px solid var(--border);
 }
 
 .form {
@@ -723,7 +727,6 @@ html[data-theme='light'] #chart {
   .chart-block + .chart-block {
     margin-top: 0;
     padding-top: 14px;
-    border-top: 1px solid var(--border);
   }
   .main-layout__right h3 {
     margin: 2px 0 0;
