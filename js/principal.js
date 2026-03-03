@@ -55,6 +55,7 @@ function persistTransactions() {
 
 function getVisibleExpenseCentsFromCategoryChart(fallbackExpenseCents) {
   if (!state.categoryChart) return fallbackExpenseCents;
+  if (state.categoryChart.$hasRealExpenseData === false) return 0;
 
   const dataset = state.categoryChart.data?.datasets?.[0];
   const rawValues = Array.isArray(dataset?.data) ? dataset.data : [];

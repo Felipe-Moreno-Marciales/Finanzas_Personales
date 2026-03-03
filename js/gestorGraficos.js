@@ -444,6 +444,7 @@ export function initCategoryChart(canvas, onVisibilityChange = null) {
     }
   });
 
+  chart.$hasRealExpenseData = false;
   return chart;
 }
 
@@ -456,6 +457,7 @@ export function updateCategoryChart(chart, transactions) {
   const entries = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]);
 
   if (entries.length === 0) {
+    chart.$hasRealExpenseData = false;
     chart.data.labels = ['Sin gastos'];
     chart.data.datasets[0].data = [1];
     chart.data.datasets[0].backgroundColor = ['#e5e7eb'];
@@ -471,6 +473,7 @@ export function updateCategoryChart(chart, transactions) {
   const data = entries.map(([, cents]) => cents);
   const colors = entries.map(([cat]) => CATEGORY_COLORS[cat] || '#c9cbcf');
 
+  chart.$hasRealExpenseData = true;
   chart.data.labels = labels;
   chart.data.datasets[0].data = data;
   chart.data.datasets[0].backgroundColor = colors;
